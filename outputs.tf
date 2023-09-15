@@ -19,3 +19,8 @@ output "deadletter_queue_name" {
   value = module.sqs-dlq.sqs_queue_name
 
 }
+
+output "sqs_topic_arn" {
+  value = module.sns-sqs-poc.sns_topic.arn
+
+}

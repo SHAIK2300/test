@@ -35,7 +35,7 @@ module "lambdapoc" {
     "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
   ]
   number_of_policies    = 2
-  attach_network_policy = true
+  attach_network_policy = false
 
   tags = {
     Environment = var.environment
@@ -86,7 +86,7 @@ data "aws_iam_policy_document" "lambdapoc" {
       "SNS:Publish"
     ]
     resources = [
-      "${module.sns-sqs-poc.sns_topic.arn}"
+      "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${module.sns-sqs-poc.sns_topic_name}"
     ]
   }
 }
@@ -95,6 +95,7 @@ resource "aws_lambda_event_source_mapping" "mapping_lambda_sqs" {
   event_source_arn = module.sqs-queue.sqs_queue_arn
   function_name    = module.lambdapoc.lambda_function_arn
   batch_size       = 1 # Adjust this value according to your requirements
+  enabled          = true
 }
 
 
