@@ -1,5 +1,6 @@
-output "account_id" {
-  value = local.account_id
+output "sqs_queue_arn" {
+  description = "sqs queue arn of main queue"
+  value       = module.sqs-queue.sqs_queue_arn
 }
 
 output "sqs-queue_id" {
